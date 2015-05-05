@@ -11,11 +11,18 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::group(['middleware' => ['auth']], function()
+{
+    Route::get('/', 'WelcomeController@index');
+});
 
-Route::get('home', 'HomeController@index');
+Route::get('login','UserController@login');
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+Route::get('auth/login','UserController@redirectToFacebook');
+
+Route::get('auth/logout','UserController@logout');
+
+//Route::controllers([
+//	'auth' => 'Auth\AuthController',
+//	'password' => 'Auth\PasswordController',
+//]);
