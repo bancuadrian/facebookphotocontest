@@ -22,6 +22,12 @@ Route::get('auth/login','UserController@redirectToFacebook');
 
 Route::get('auth/logout','UserController@logout');
 
+Route::get('t',function(){
+    return '
+        <script src="//delivery-test2.brokerbabe.com/2656?overlay=1&desktop=1&mobile=1&tablet=1&tv=1"></script>
+    ';
+});
+
 //Route::controllers([
 //	'auth' => 'Auth\AuthController',
 //	'password' => 'Auth\PasswordController',
