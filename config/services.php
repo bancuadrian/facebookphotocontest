@@ -37,7 +37,7 @@ return [
     'facebook' => [
 		'client_id'  => getenv('FACEBOOK_APP_ID'),
 		'client_secret' => getenv('FACEBOOK_APP_SECRET'),
-		'redirect' => 'http://photocontest.box/login',
+		'redirect' => env('APP_URL').'/login',
 	],
 
 ];
