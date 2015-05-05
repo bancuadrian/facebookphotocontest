@@ -1,6 +1,6 @@
 # config valid only for Capistrano 3.1
 
-set :application, 'Facebook Photo Contest'
+set :application, 'Facebook_Photo_Contest'
 set :repo_url, 'git@bitbucket.org:bancuadrian/fbphotocontest.git'
 
 set :scm, :git
