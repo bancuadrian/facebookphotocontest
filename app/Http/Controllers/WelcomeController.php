@@ -6,9 +6,6 @@ class WelcomeController extends Controller {
 
 	public function index()
 	{
-        \Visitor::log();
-        dd(\Session::all());
-        dd(\Auth::user()->toArray());
 		return view('welcome');
 	}
 }
