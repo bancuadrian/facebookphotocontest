@@ -1,7 +1,7 @@
 # config valid only for Capistrano 3.1
 
-set :application, 'Laravel_Mysql_Backup_Manager'
-set :repo_url, 'git@bitbucket.org:bancuadrian/laravel-mysql-backup-manager.git'
+set :application, 'Facebook Photo Contest'
+set :repo_url, 'git@bitbucket.org:bancuadrian/fbphotocontest.git'
 
 set :scm, :git
 
