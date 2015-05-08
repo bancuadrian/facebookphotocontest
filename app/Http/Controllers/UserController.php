@@ -45,6 +45,10 @@ class UserController extends Controller {
 
 	}
 
+    public function getPhotosAccess(){
+        return Socialize::with('facebook')->scopes(['user_photos'])->redirect('/google.ro');
+    }
+
     public function logout(){
         \Session::flush();
         \Auth::logout();

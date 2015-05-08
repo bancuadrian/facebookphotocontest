@@ -1,14 +1,14 @@
 <div class="row">
-    <div class="col-sm-6 text-center" translate="My Photo.Upload from Facebook">
-        Upload from Facebook
+    <div class="col-sm-6 text-center">
+        <a href="javascript:void(0)" ng-click="setAction('UPLOAD_FACEBOOK')" translate="My Photo.Upload from Facebook">Upload from Facebook</a>
     </div>
-    <div class="col-sm-6 text-center" translate="My Photo.Upload from PC">
-        Upload from PC
+    <div class="col-sm-6 text-center">
+        <a href="javascript:void(0)" ng-click="setAction('UPLOAD_PC')" translate="My Photo.Upload from PC">Upload from PC</a>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-12" flow-init flow-file-added="test($file)" flow-name="obj.flow">
+<div class="row" ng-if="action=='UPLOAD_PC'">
+    <div class="col-sm-12" flow-init flow-name="obj.flow">
 
         <h3 class="text-center">
             <a name="image-example" class="anchor" href="#image-example">
@@ -27,7 +27,7 @@
                 <input style="visibility: hidden; position: absolute;" type="file">
             </span>
 
-            <span class="btn btn-success ng-hide" ng-show="$flow.files.length" ng-click="savePhoto()" translate="My Photo.Save Photo">
+            <span class="btn btn-success ng-hide" ng-show="$flow.files.length" ng-click="savePhoto($flow.files[0])" translate="My Photo.Save Photo">
                 Save Photo
             </span>
 
@@ -40,5 +40,25 @@
             Only PNG,GIF,JPG,JEPG files allowed.
         </div>
 
+    </div>
+</div>
+
+<div class="row" ng-if="action=='UPLOAD_FACEBOOK'">
+    <div class="col-sm-12">
+
+        <h3 class="text-center">
+            <a name="image-example" class="anchor" href="#image-example">
+                <span class="octicon octicon-link"></span>
+            </a>
+            <span translate="My Photo.Upload from Facebook">Upload from Facebook</span>
+        </h3>
+
+        <div class="thumbnail ng-hide" ng-show="$flow.files.length">
+            <img class="img-responsive" id="photoUpload">
+        </div>
+
+        <div class="text-center" style="margin-top: 30px">
+            My Images
+        </div>
     </div>
 </div>

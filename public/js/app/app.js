@@ -1,4 +1,4 @@
-var app = angular.module('photoContestApp',['ngRoute','ngCookies','ngStorage','pascalprecht.translate','pc.photoDialog']);
+var app = angular.module('photoContestApp',['ngRoute','ngCookies','ngStorage','pascalprecht.translate','pc.photoDialog','pc.loading']);
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/', {

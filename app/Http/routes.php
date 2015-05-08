@@ -11,9 +11,22 @@
 |
 */
 
+\Facebook\FacebookSession::setDefaultApplication(env('FACEBOOK_APP_ID'), env('FACEBOOK_APP_SECRET'));
+
 Route::group(['middleware' => ['auth']], function()
 {
     Route::get('/', 'WelcomeController@index');
+    Route::post('/savePhoto','PhotoController@savePhoto');
+
+    Route::get('/t2',function(){
+        $session = new \Facebook\FacebookSession(\Auth::user()->token);
+        $me = (new \Facebook\FacebookRequest(
+            $session, 'GET', '/me'
+        ))->execute()->getGraphObject(GraphUser::className());
+
+        return $me;
+        //return Socialize::with('facebook')->scopes(['user_photos'])->redirect();
+    });
 });
 
 Route::get('login','UserController@login');

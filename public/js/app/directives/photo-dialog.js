@@ -9,11 +9,11 @@ setActive.config(['flowFactoryProvider', function (flowFactoryProvider) {
         simultaneousUploads: 1
     };
     flowFactoryProvider.on('catchAll', function (event) {
-        console.log('catchAll', arguments);
+        //console.log('catchAll', arguments);
     });
 }]);
 
-setActive.directive('photoDialog', function () {
+setActive.directive('photoDialog', function ($http) {
     return {
         restrict: 'E',
         scope: {},
@@ -25,10 +25,26 @@ setActive.directive('photoDialog', function () {
             return {
                 pre: function preLink(scope, iElement, iAttrs, controller) {
                     scope.obj = {};
+                    scope.action = '';
 
-                    scope.savePhoto = function(){
-                        var photo_src = angular.element( document.querySelector( '#photoUpload' ) );
-                        console.log(photo_src.attr('src'));
+                    scope.setAction = function(action){
+                        scope.action = action;
+                    }
+
+                    scope.savePhoto = function(photo){
+                        var request = {
+                            image_base64 : angular.element( document.querySelector( '#photoUpload' )).attr('src'),
+                            filename : photo.uniqueIdentifier + '.' + photo.getExtension()
+                        };
+
+                        $http.post('/savePhoto',request).then(
+                            function(response){
+
+                            },
+                            function(error){
+
+                            }
+                        );
                     }
                 },
                 post: function postLink(scope, element, iAttrs, controller) {
