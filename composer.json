@@ -10,7 +10,8 @@
         "laravel/socialite": "~2.0",
         "jalle19/php-whitelist-check": "dev-master",
         "geoip2/geoip2": "dev-master",
-        "weboap/visitor": "dev-master"
+        "weboap/visitor": "dev-master",
+        "sammyk/facebook-query-builder": "~1.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

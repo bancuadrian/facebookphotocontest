@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5f5fe6705890e75a00ecc793935ee89e",
+    "hash": "88e0ccfa7ebd1efe8329fbd9147ef4a7",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -807,16 +807,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.28",
+            "version": "v5.0.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "06a09429322cf53e5bd4587db1060f02a291562e"
+                "reference": "aa7046645e094b0134a4125cce6694f4b076ac62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/06a09429322cf53e5bd4587db1060f02a291562e",
-                "reference": "06a09429322cf53e5bd4587db1060f02a291562e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/aa7046645e094b0134a4125cce6694f4b076ac62",
+                "reference": "aa7046645e094b0134a4125cce6694f4b076ac62",
                 "shasum": ""
             },
             "require": {
@@ -929,7 +929,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-04-21 01:44:32"
+            "time": "2015-05-08 12:57:10"
         },
         {
             "name": "laravel/socialite",
@@ -1299,21 +1299,20 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.18.0",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "99e2f69f7bdc2cc4334b2d00f1e0ba450623ea36"
+                "reference": "5cb6e71055f7b0b57956b73d324cc4de31278f42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/99e2f69f7bdc2cc4334b2d00f1e0ba450623ea36",
-                "reference": "99e2f69f7bdc2cc4334b2d00f1e0ba450623ea36",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/5cb6e71055f7b0b57956b73d324cc4de31278f42",
+                "reference": "5cb6e71055f7b0b57956b73d324cc4de31278f42",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
-                "symfony/translation": "2.6.*"
+                "php": ">=5.3.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
@@ -1336,13 +1335,13 @@
                 }
             ],
             "description": "A simple API extension for DateTime.",
-            "homepage": "http://carbon.nesbot.com",
+            "homepage": "https://github.com/briannesbitt/Carbon",
             "keywords": [
                 "date",
                 "datetime",
                 "time"
             ],
-            "time": "2015-03-26 03:05:57"
+            "time": "2014-09-26 02:52:02"
         },
         {
             "name": "nikic/php-parser",
@@ -1541,6 +1540,55 @@
             ],
             "description": "A lightweight implementation of CommonJS Promises/A for PHP",
             "time": "2014-12-30 13:32:42"
+        },
+        {
+            "name": "sammyk/facebook-query-builder",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SammyK/FacebookQueryBuilder.git",
+                "reference": "ef74db846c1ccd28a474a200b81dae007eb0af76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SammyK/FacebookQueryBuilder/zipball/ef74db846c1ccd28a474a200b81dae007eb0af76",
+                "reference": "ef74db846c1ccd28a474a200b81dae007eb0af76",
+                "shasum": ""
+            },
+            "require": {
+                "facebook/php-sdk-v4": "~4.0.12",
+                "nesbot/carbon": "~1.13.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SammyK\\FacebookQueryBuilder\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sammy Kaye Powers",
+                    "email": "sammyk@sammykmedia.com",
+                    "homepage": "http://www.sammyk.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An elegant and efficient way to interface with Facebook's Graph API",
+            "homepage": "https://github.com/SammyK/FacebookQueryBuilder",
+            "keywords": [
+                "facebook",
+                "graph api",
+                "sdk"
+            ],
+            "time": "2014-11-09 22:01:49"
         },
         {
             "name": "swiftmailer/swiftmailer",

@@ -10,10 +10,6 @@ class UserController extends Controller {
 	public function login()
 	{
 
-        if(\Auth::check()){
-            return redirect('/');
-        }
-
         $user = null;
 
         try{
@@ -28,16 +24,16 @@ class UserController extends Controller {
 
         if(!$db_user){
             $db_user = new User();
-            $db_user->fb_id = $user->id;
-            $db_user->name = $user->name;
-            $db_user->email = $user->email;
-            $db_user->avatar = $user->avatar;
-            $db_user->token = $user->token;
-            $db_user->updated_time = $user->user['updated_time'];
-            $db_user->verified = $user->user['verified'];
-
-            $db_user->save();
         }
+
+        $db_user->fb_id = $user->id;
+        $db_user->name = $user->name;
+        $db_user->email = $user->email;
+        $db_user->avatar = $user->avatar;
+        $db_user->token = $user->token;
+        $db_user->updated_time = $user->user['updated_time'];
+        $db_user->verified = $user->user['verified'];
+        $db_user->save();
 
         \Auth::login($db_user,true);
 

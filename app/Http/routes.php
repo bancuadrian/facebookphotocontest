@@ -11,20 +11,21 @@
 |
 */
 
-\Facebook\FacebookSession::setDefaultApplication(env('FACEBOOK_APP_ID'), env('FACEBOOK_APP_SECRET'));
-
 Route::group(['middleware' => ['auth']], function()
 {
     Route::get('/', 'WelcomeController@index');
     Route::post('/savePhoto','PhotoController@savePhoto');
 
     Route::get('/t2',function(){
+        \Facebook\FacebookSession::setDefaultApplication('440229369435697','6cd4598aace14b4b1aa74d68ddbe6aa6');
         $session = new \Facebook\FacebookSession(\Auth::user()->token);
-        $me = (new \Facebook\FacebookRequest(
-            $session, 'GET', '/me'
-        ))->execute()->getGraphObject(GraphUser::className());
+        //$session = new \Facebook\FacebookSession(\Auth::user()->token);
 
-        return $me;
+        $request = new \Facebook\FacebookRequest($session, 'GET', '/albums');
+        $response = $request->execute();
+        $graphObject = $response->getGraphObject();
+
+        dd($graphObject);
         //return Socialize::with('facebook')->scopes(['user_photos'])->redirect();
     });
 });
