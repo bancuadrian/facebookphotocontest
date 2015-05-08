@@ -7,6 +7,14 @@
     "Privacy Information" : "Privacy Information",
     "Share" : "Share",
     "My Photo" : "My Photo"
+  },
+  "My Photo" : {
+    "Upload from Facebook" : "Upload from Facebook",
+    "Select image" : "Select image",
+    "Remove" : "Remove",
+    "Save Photo" : "Save Photo",
+    "Only PNG,GIF,JPG,JEPG files allowed" : "Only PNG,GIF,JPG,JEPG files allowed",
+    "Upload from PC" : "Upload from PC"
   }
 
 }

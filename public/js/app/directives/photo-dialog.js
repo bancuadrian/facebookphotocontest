@@ -26,10 +26,9 @@ setActive.directive('photoDialog', function () {
                 pre: function preLink(scope, iElement, iAttrs, controller) {
                     scope.obj = {};
 
-                    scope.test = function(file){
-                        console.log(file);
-                        console.log(scope.obj);
-                        scope.obj.flow.upload();
+                    scope.savePhoto = function(){
+                        var photo_src = angular.element( document.querySelector( '#photoUpload' ) );
+                        console.log(photo_src.attr('src'));
                     }
                 },
                 post: function postLink(scope, element, iAttrs, controller) {
