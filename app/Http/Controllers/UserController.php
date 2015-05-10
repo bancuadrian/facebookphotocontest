@@ -7,15 +7,22 @@ use Socialize;
 
 class UserController extends Controller {
 
-	public function login()
+	public function login($redirect_path = null)
 	{
+
+        $redirect = '/';
+
+        if($redirect_path)
+        {
+            $redirect .= $redirect_path;
+        }
 
         $user = null;
 
         try{
             $user = Socialize::with('facebook')->user();
         }catch (ClientException $e) {
-            return $this->redirectToFacebook();
+            return $this->redirectToFacebook($redirect_path);
         }catch (InvalidStateException $e){
             dd('stop');
         }
@@ -37,7 +44,7 @@ class UserController extends Controller {
 
         \Auth::login($db_user,true);
 
-        return redirect('/');
+        return redirect($redirect);
 
 	}
 
@@ -51,7 +58,12 @@ class UserController extends Controller {
         return redirect('/login');
     }
 
-    public function redirectToFacebook(){
+    public function redirectToFacebook($redirect_path = null){
+        if ($redirect_path)
+        {
+            \Config::set('services.facebook.redirect', \Config::get('services.facebook.redirect')."/".$redirect_path);
+        }
+
         \Session::flush();
         \Auth::logout();
         return Socialize::with('facebook')->redirect();

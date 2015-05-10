@@ -21,7 +21,7 @@ Route::group(['middleware' => ['auth']], function()
         $session = new \Facebook\FacebookSession(\Auth::user()->token);
         //$session = new \Facebook\FacebookSession(\Auth::user()->token);
 
-        $request = new \Facebook\FacebookRequest($session, 'GET', '/albums');
+        $request = new \Facebook\FacebookRequest($session, 'GET', '/me/permissions');
         $response = $request->execute();
         $graphObject = $response->getGraphObject();
 
@@ -30,9 +30,9 @@ Route::group(['middleware' => ['auth']], function()
     });
 });
 
-Route::get('login','UserController@login');
+Route::get('login/{redirect_path?}','UserController@login');
 
-Route::get('auth/login','UserController@redirectToFacebook');
+Route::get('auth/login/{redirect_path?}','UserController@redirectToFacebook');
 
 Route::get('auth/logout','UserController@logout');
 
