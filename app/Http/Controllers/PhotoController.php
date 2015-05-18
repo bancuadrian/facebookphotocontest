@@ -28,4 +28,30 @@ class PhotoController extends Controller {
 
         return $filename;
 	}
+
+    public function getAlbumsFromFacebook()
+    {
+        \Facebook\FacebookSession::setDefaultApplication('440229369435697','6cd4598aace14b4b1aa74d68ddbe6aa6');
+        $session = new \Facebook\FacebookSession(\Auth::user()->token);
+        //$session = new \Facebook\FacebookSession(\Auth::user()->token);
+
+        $request = new \Facebook\FacebookRequest($session, 'GET', '/me/permissions');
+        $response = $request->execute();
+        $permissions = $response->getGraphObject()->asArray();
+
+        $permissions = array_filter($permissions,function($v){
+            return ($v->permission == 'user_photos' && $v->status == 'granted');
+        });
+
+        if(!count($permissions))
+        {
+            return response(['scope_required'=>'user_photos'],412);
+        }
+
+        $request = new \Facebook\FacebookRequest($session, 'GET', '/me/albums?fields=id,name,cover_photo,picture,count&limit=5000');
+        $response = $request->execute();
+        $albums = $response->getGraphObject()->asArray();
+
+        return $albums;
+    }
 }

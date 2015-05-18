@@ -12,6 +12,7 @@
     "Upload from Facebook" : "Upload from Facebook",
     "Select image" : "Select image",
     "Remove" : "Remove",
+    "Could not get albums from facebook" : "Could not get albums from facebook. Please click here to grant access.",
     "Save Photo" : "Save Photo",
     "Only PNG,GIF,JPG,JEPG files allowed" : "Only PNG,GIF,JPG,JEPG files allowed",
     "Upload from PC" : "Upload from PC"

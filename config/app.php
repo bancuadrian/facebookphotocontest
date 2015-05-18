@@ -144,7 +144,7 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
-		'Laravel\Socialite\SocialiteServiceProvider',
+		'App\CustomSocialiteServiceProvider',
         'Weboap\Visitor\VisitorServiceProvider',
 
 	],

@@ -54,23 +54,26 @@
 
 	<div ng-view=""></div>
 
+    <div id="fb-root"></div>
+
     <loading></loading>
 
 	<!-- Scripts -->
+    <script src="{{ asset('/js/jquery.min.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
 	<script src="{{ asset('/js/flow.min.js') }}"></script>
 
 	<script src="{{ asset('/js/angular.js') }}"></script>
 	<script src="{{ asset('/js/angular-route.min.js') }}"></script>
 	<script src="{{ asset('/js/angular-cookies.min.js') }}"></script>
 	<script src="{{ asset('/js/ngStorage.min.js') }}"></script>
+	<script src="{{ asset('/js/angular-deckgrid.js') }}"></script>
 	<script src="{{ asset('/js/angular-translate.min.js') }}"></script>
 	<script src="{{ asset('/js/angular-translate-loader-static-files.min.js') }}"></script>
 	<script src="{{ asset('/js/angular-translate-storage-cookie.min.js') }}"></script>
 	<script src="{{ asset('/js/angular-translate-storage-local.min.js') }}"></script>
 	<script src="{{ asset('/js/ng-flow.min.js') }}"></script>
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <script src="{{ asset('/js/app/app.js') }}"></script>
     <script src="{{ asset('/js/app/directives/photo-dialog.js') }}"></script>
@@ -86,6 +89,24 @@
                 navMain.collapse('hide');
             });
         });
+    </script>
+
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '{{  Config::get('services.facebook.client_id') }}',
+                xfbml      : true,
+                version    : 'v2.3'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
     </script>
 </body>
 </html>

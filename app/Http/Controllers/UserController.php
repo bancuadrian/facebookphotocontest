@@ -59,14 +59,25 @@ class UserController extends Controller {
     }
 
     public function redirectToFacebook($redirect_path = null){
+        \Session::flush();
+        \Auth::logout();
+
         if ($redirect_path)
         {
             \Config::set('services.facebook.redirect', \Config::get('services.facebook.redirect')."/".$redirect_path);
         }
 
-        \Session::flush();
-        \Auth::logout();
         return Socialize::with('facebook')->redirect();
+    }
+
+    public function getScope($scope,$redirect_path=null)
+    {
+        if ($redirect_path)
+        {
+            \Config::set('services.facebook.redirect', \Config::get('services.facebook.redirect')."/".$redirect_path);
+        }
+
+        return Socialize::with('facebook')->scopes([$scope])->redirect();
     }
 
 }

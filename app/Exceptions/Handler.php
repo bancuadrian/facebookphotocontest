@@ -29,9 +29,8 @@ class Handler extends ExceptionHandler {
         {
             // if app is not authorized
             if($e->getSubErrorCode() == '458' ){
-                dd(url('auth/login/'.\Request::path()));
-                //header('Location: ' . url('auth/login/'.\Request::path()));
-                //dd(url('auth/login?redirect_path='.\Request::path()));
+                header('Location: ' . url('auth/login/'.\Request::path()));
+                dd();
             }
         }
 
