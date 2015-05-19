@@ -31,9 +31,7 @@ class PhotoController extends Controller {
 
     public function getAlbumsFromFacebook()
     {
-        \Facebook\FacebookSession::setDefaultApplication('440229369435697','6cd4598aace14b4b1aa74d68ddbe6aa6');
         $session = new \Facebook\FacebookSession(\Auth::user()->token);
-        //$session = new \Facebook\FacebookSession(\Auth::user()->token);
 
         $request = new \Facebook\FacebookRequest($session, 'GET', '/me/permissions');
         $response = $request->execute();
