@@ -17,6 +17,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('/savePhoto','PhotoController@savePhoto');
 
     Route::get('/getAlbums','PhotoController@getAlbumsFromFacebook');
+    Route::post('/getPhotosForAlbum','PhotoController@getPhotosForAlbum');
+    Route::post('/getImageBase64','PhotoController@getImageBase64');
 
     Route::get('/t2',function(){
         dd(\Session::all());

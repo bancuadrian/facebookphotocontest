@@ -43,19 +43,36 @@
     </div>
 </div>
 
-<div class="row" ng-if="action=='UPLOAD_FACEBOOK'">
-    <div class="col-sm-12" ng-if="photosAccessError">
+<div class="row" ng-if="photosAccessError">
+    <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12">
                 <h4 class="text-center">
-                    <a href="javascript:void(0)" ng-click="getPhotosScope()" translate="My Photo.Could not get albums from facebook">
-                        Could not get albums from facebook
+                    <a href="javascript:void(0)" ng-click="getPhotosScope()" translate="My Photo.Could not get access to facebook photos">
+                        Could not get access to facebook photos
                     </a>
                 </h4>
             </div>
         </div>
     </div>
-    <div class="col-sm-12" ng-if="!photosAccessError">
+</div>
+
+<div class="row" ng-if="anyError">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="text-center">
+                    <span translate="My Photo.Any Error">
+                        Any Error
+                    </span>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="action=='UPLOAD_FACEBOOK'">
+    <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12">
                 <h3 class="text-center">
@@ -70,21 +87,63 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="row" ng-if="action=='UPLOAD_FACEBOOK' && !gotPhotos">
+    <div class="col-sm-12">
+        <div deckgrid class="deckgrid" source="albums.data">
+            <div class="photo">
+                <a href="" data-ng-click="mother.getPhotosForAlbum(card)">
+                    <div class="photo-wrapper">
+                        <img src="" data-ng-src="{{card.picture.data.url}}">
+                    </div>
+                    <div class="photo-description">
+                        <h5>{{card.name}}</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="action=='UPLOAD_FACEBOOK' && gotPhotos && !showPhotoPreview">
+    <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12">
-                <div deckgrid class="deckgrid" source="albums.data">
+                <button ng-click="nextPage()" value="Next"></button>
+                <button ng-click="previousPage()" value="Previous"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div deckgrid class="deckgrid" source="photos">
                     <div class="photo">
-                        <a href="" data-ng-click="card.showIndex = !card.showIndex">
-                            <div class="photo-wrapper">
-                                <img src="" data-ng-src="{{card.picture.data.url}}">
-                            </div>
-                            <div class="photo-description">
-                                <h5>{{card.name}}</h5>
+                        <a href="" data-ng-click="mother.previewPhoto(card)">
+                            <div class="photo-wrapper" style="text-align: center;">
+                                <img src="" data-ng-src="{{card.images[card.images.length - 1].source}}" class="img-responsive" style="margin: 0 auto">
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="action=='UPLOAD_FACEBOOK' && gotPhotos && showPhotoPreview">
+    <div class="col-sm-12">
+        <div class="thumbnail">
+            <img src="" ng-src="{{ facebookPhoto }}" class="img-responsive" id="photoUpload">
+        </div>
+
+        <div class="text-center" style="margin-top: 30px">
+            <span class="btn btn-success" ng-click="savePhotoFacebook()" translate="My Photo.Save Photo">
+                Save Photo
+            </span>
+
+            <span class="btn btn-default" ng-click="backToAlbums()" translate="My Photo.Back">
+                Back
+            </span>
         </div>
     </div>
 </div>
