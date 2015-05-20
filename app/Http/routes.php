@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('/getImageBase64','PhotoController@getImageBase64');
 
     Route::get('/getMyPhoto','PhotoController@getMyPhoto');
+    Route::post('/removeMyPhoto','PhotoController@removeMyPhoto');
 
     Route::get('/t2',function(){
         dd(\Session::all());

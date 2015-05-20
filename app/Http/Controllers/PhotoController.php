@@ -177,4 +177,20 @@ class PhotoController extends Controller {
 
         return $userPhoto;
     }
+
+    public function removeMyPhoto()
+    {
+        $input = \Request::all();
+        if(!isset($input['photo']) || !isset($input['photo']['id'])) return;
+
+        $userPhoto = UserPhoto::where('user_id',\Auth::user()->id)->where('id',$input['photo']['id'])->where('status',1)->first();
+
+        if($userPhoto)
+        {
+            $userPhoto->status = 0;
+            $userPhoto->save();
+        }
+
+        return ['removed'=>'ok'];
+    }
 }

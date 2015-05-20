@@ -29,6 +29,14 @@ setActive.directive('myPhoto', function ($http,flowFactory,$timeout) {
                     scope.changePicture = function(){
                         scope.$emit('change_picture');
                     }
+
+                    scope.removePicture = function(){
+                        $http.post('/removeMyPhoto',{photo:scope.photo}).then(
+                            function(response){
+                                scope.$emit('change_picture');
+                            }
+                        );
+                    }
                 },
                 post: function postLink(scope, element, iAttrs, controller) {
 
