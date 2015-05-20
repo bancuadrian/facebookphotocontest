@@ -23,7 +23,7 @@ namespace :deploy do
                 execute :rm, "-rf storage/logs" # remove logs folder
                 execute :ln, "-s #{shared_path}/logs storage/logs" # symlink uploads
                 execute :ln, "-s #{shared_path}/backups backups" # symllink ips-files uploads
-                execute :ln, "-s #{shared_path}/uploads storage/uploads" # symllink ips-files uploads
+                execute :ln, "-s #{shared_path}/uploads public/uploads" # symllink ips-files uploads
             end
         end
     end
