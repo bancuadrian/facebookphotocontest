@@ -36,8 +36,8 @@
             </span>
         </div>
 
-            <div class="text-center" style="margin-top: 30px" translate="My Photo.Only PNG,GIF,JPG,JEPG files allowed">
-            Only PNG,GIF,JPG,JEPG files allowed.
+            <div class="text-center" style="margin-top: 30px" translate="My Photo.Only PNG,JPG,JPEG files allowed">
+            Only PNG,JPG,JEPG files allowed.
         </div>
 
     </div>
@@ -89,18 +89,26 @@
         </div>
     </div>
 </div>
-<div class="row" ng-if="action=='UPLOAD_FACEBOOK' && !gotPhotos">
+<div class="row" ng-show="action=='UPLOAD_FACEBOOK' && !gotPhotos">
     <div class="col-sm-12">
-        <div deckgrid class="deckgrid" source="albums.data">
-            <div class="photo">
-                <a href="" data-ng-click="mother.getPhotosForAlbum(card)">
-                    <div class="photo-wrapper">
-                        <img src="" data-ng-src="{{card.picture.data.url}}">
-                    </div>
-                    <div class="photo-description">
-                        <h5>{{card.name}}</h5>
-                    </div>
-                </a>
+        <div class="row">
+            <div class="col-sm-12">
+                <button ng-click="nextPage()" translate="Next Page">Next Page</button>
+                <button ng-click="previousPage()" translate="Previous Page">Previous Page</button>
+            </div>
+        </div>
+        <div class="row">
+            <div deckgrid class="deckgrid" source="albums.data">
+                <div class="photo">
+                    <a href="" data-ng-click="mother.getPhotosForAlbum(card)">
+                        <div class="photo-wrapper">
+                            <img src="" data-ng-src="{{card.picture.data.url}}">
+                        </div>
+                        <div class="photo-description">
+                            <h5>{{card.name}}</h5>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -110,8 +118,9 @@
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12">
-                <button ng-click="nextPage()" value="Next"></button>
-                <button ng-click="previousPage()" value="Previous"></button>
+                <button ng-click="nextPagePhotos()" translate="Next Page">Next Page</button>
+                <button ng-click="previousPagePhotos()" translate="Previous Page">Previous Page</button>
+                <button ng-click="backToAlbums()" translate="Back To Albums">Back To Albums</button>
             </div>
         </div>
         <div class="row">
@@ -141,7 +150,7 @@
                 Save Photo
             </span>
 
-            <span class="btn btn-default" ng-click="backToAlbums()" translate="My Photo.Back">
+            <span class="btn btn-default" ng-click="backToPhotos()" translate="My Photo.Back">
                 Back
             </span>
         </div>

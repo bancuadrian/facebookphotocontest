@@ -27,12 +27,14 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                     scope.obj = {};
                     scope.obj.flow = flowFactory.create({});
                     scope.albums = [];
+                    scope.current_album = null;
 
                     scope.photos = [];
                     scope.photos_paging = {};
                     scope.gotPhotos = false;
                     scope.facebookPhoto = '';
                     scope.showPhotoPreview = false;
+                    scope.currentPreviewImage = null;
 
                     scope.action = '';
 
@@ -43,46 +45,23 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                         scope.action = action;
                         if(action == 'UPLOAD_FACEBOOK')
                         {
-                            scope.photosAccessError = false;
-                            scope.anyError = false;
-
-                            $http.get('/getAlbums').then(
-                                function(response)
-                                {
-                                    scope.albums = response.data;
-                                },
-                                function(error)
-                                {
-                                    if(error.data.scope_required)
-                                    {
-                                        scope.photosAccessError = true;
-                                        return;
-                                    }
-
-                                    scope.anyError = true;
-                                }
-                            );
+                            scope.getAlbums();
                         }
                     }
 
-                    scope.getPhotosScope = function()
-                    {
-                        FB.login(function(response){
-                            scope.setAction('UPLOAD_FACEBOOK');
-                        },{scope: 'user_photos',auth_type:'rerequest'});
-                    }
-
-                    scope.getPhotosForAlbum = function(album,paging)
+                    scope.getAlbums = function(paging)
                     {
                         scope.photosAccessError = false;
                         scope.anyError = false;
 
-                        $http.post('/getPhotosForAlbum',{album_id:album.id}).then(
+                        $http.post('/getAlbums',{direction:paging,albums:scope.albums}).then(
                             function(response)
                             {
-                                scope.photos = response.data.data;
-                                scope.photos_paging = response.data.paging;
-                                scope.gotPhotos = true;
+                                $timeout(function(){
+                                    delete(scope.albums);
+                                    scope.albums = response.data;
+                                    scope.$apply();
+                                });
                             },
                             function(error)
                             {
@@ -97,14 +76,67 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                         );
                     }
 
+                    scope.getPhotosScope = function()
+                    {
+                        FB.login(function(response){
+                            scope.setAction('UPLOAD_FACEBOOK');
+                        },{scope: 'user_photos',auth_type:'rerequest'});
+                    }
+
+                    scope.getPhotosForAlbum = function(album,paging)
+                    {
+                        scope.photosAccessError = false;
+                        scope.anyError = false;
+
+                        $http.post('/getPhotosForAlbum',{album_id:album.id,direction:paging,paging:scope.photos_paging}).then(
+                            function(response)
+                            {
+                                $timeout(function(){
+                                    scope.photos = response.data.data;
+                                    scope.photos_paging = response.data.paging;
+                                    scope.current_album = album;
+                                    scope.gotPhotos = true;
+                                });
+                            },
+                            function(error)
+                            {
+                                if(error.data.scope_required)
+                                {
+                                    scope.photosAccessError = true;
+                                    return;
+                                }
+
+                                scope.anyError = true;
+                            }
+                        );
+                    }
+
+                    scope.backToAlbums = function()
+                    {
+                        scope.gotPhotos = false;
+                        scope.photos = [];
+                        scope.photos_paging = {};
+                        scope.current_album = null;
+                    }
+
                     scope.nextPage = function()
                     {
-
+                        scope.getAlbums('next');
                     }
 
                     scope.previousPage = function()
                     {
+                        scope.getAlbums('previous');
+                    }
 
+                    scope.nextPagePhotos = function()
+                    {
+                        scope.getPhotosForAlbum(scope.current_album,'next');
+                    }
+
+                    scope.previousPagePhotos = function()
+                    {
+                        scope.getPhotosForAlbum(scope.current_album,'previous');
                     }
 
                     scope.previewPhoto = function(photo)
@@ -115,6 +147,7 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                                 $timeout(function() {
                                     scope.facebookPhoto = response.data.base64;
                                     scope.showPhotoPreview = true;
+                                    scope.currentPreviewImage = photo;
                                 });
                             },
                             function(error)
@@ -124,9 +157,11 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                         );
                     }
 
-                    scope.backToAlbums = function()
+                    scope.backToPhotos = function()
                     {
+                        scope.facebookPhoto = '';
                         scope.showPhotoPreview = false;
+                        scope.currentPreviewImage = null;
                     }
 
                     scope.savePhoto = function(photo){
@@ -141,6 +176,22 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                             },
                             function(error){
 
+                            }
+                        );
+                    }
+
+                    scope.savePhotoFacebook = function(){
+                        var request = {
+                            image_base64 : scope.facebookPhoto,
+                            filename : scope.currentPreviewImage.images[0].source
+                        };
+
+                        $http.post('/savePhoto',request).then(
+                            function(response){
+                                console.log(response);
+                            },
+                            function(error){
+                                console.log(error);
                             }
                         );
                     }

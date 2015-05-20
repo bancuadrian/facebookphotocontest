@@ -6,6 +6,11 @@ class PhotoController extends Controller {
 
     private $session;
 
+    public $allow_image_types = [
+        IMAGETYPE_JPEG,
+        IMAGETYPE_PNG
+    ];
+
     function __construct()
     {
         $this->session = new \Facebook\FacebookSession(\Auth::user()->token);
@@ -32,11 +37,21 @@ class PhotoController extends Controller {
 
         $filename = $input['filename'];
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $ext_extra_data = parse_url($ext,PHP_URL_QUERY);
+        $ext = str_replace("?".$ext_extra_data,"",$ext);
+
         $filename = uniqid().".".$ext;
 
         $ifp = fopen(public_path()."/uploads/".$filename, "wb");
         fwrite($ifp, base64_decode($data[1]));
         fclose($ifp);
+
+        $type = exif_imagetype(public_path()."/uploads/".$filename);
+
+        if(!in_array($type,$this->allow_image_types))
+        {
+            return response(['error'=>'not_allowed'],412);
+        }
 
         // deactivate other photos
         $affected = UserPhoto::where('status', '=', 1)->update(array('status' => 0));
@@ -56,7 +71,29 @@ class PhotoController extends Controller {
             return response(['scope_required'=>'user_photos'],412);
         }
 
-        $request = new \Facebook\FacebookRequest($this->session, 'GET', '/me/albums?fields=id,name,cover_photo,picture,count&limit=5000');
+        $input = \Request::all();
+
+        $page = null;
+        if(isset($input['direction']))
+        {
+            if($input['direction'] == 'next' && isset($input['albums']['paging']) && isset($input['albums']['paging']['next']))
+            {
+                $page = 'after='.$input['albums']['paging']['cursors']['after'];
+            }
+
+            if($input['direction'] == 'previous' && isset($input['albums']['paging']) && isset($input['albums']['paging']['previous']))
+            {
+                $page = 'before='.$input['albums']['paging']['cursors']['before'];
+            }
+        }
+
+        $facebook_query_string = '/me/albums?fields=id,name,cover_photo,picture,count&limit=10';
+        if($page)
+        {
+            $facebook_query_string .= '&'.$page;
+        }
+
+        $request = new \Facebook\FacebookRequest($this->session, 'GET', $facebook_query_string);
         $response = $request->execute();
         $albums = $response->getGraphObject()->asArray();
 
@@ -74,9 +111,28 @@ class PhotoController extends Controller {
         $input = \Request::all();
         $params = [];
         $params[] = 'fields=images';
-        $params[] = 'limit=100';
+        $params[] = 'limit=30';
 
-        $request = new \Facebook\FacebookRequest($this->session, 'GET', '/'.$input['album_id'].'/photos?fields=images&limit=100');
+        $page = null;
+        if(isset($input['direction']))
+        {
+            if($input['direction'] == 'next' && isset($input['paging']) && isset($input['paging']['next']))
+            {
+                $page = 'after='.$input['paging']['cursors']['after'];
+            }
+
+            if($input['direction'] == 'previous' && isset($input['paging']) && isset($input['paging']['previous']))
+            {
+                $page = 'before='.$input['paging']['cursors']['before'];
+            }
+        }
+
+        if($page)
+        {
+            $params[] = $page;
+        }
+
+        $request = new \Facebook\FacebookRequest($this->session, 'GET', '/'.$input['album_id'].'/photos?'.implode("&",$params));
         $response = $request->execute();
         $photos = $response->getGraphObject()->asArray();
 

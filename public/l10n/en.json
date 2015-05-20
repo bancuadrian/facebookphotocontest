@@ -13,10 +13,13 @@
     "Select image" : "Select image",
     "Remove" : "Remove",
     "Back" : "Back",
+    "Back To Albums" : "Back To Albums",
+    "Next Page" : "Next Page",
+    "Previous Page" : "Previous Page",
     "Any Error" : "The application encountered an error. Please try again later or contact us.",
     "Could not get access to facebook photos" : "Could not get access to facebook photos. Please click here to grant access.",
     "Save Photo" : "Save Photo",
-    "Only PNG,GIF,JPG,JEPG files allowed" : "Only PNG,GIF,JPG,JEPG files allowed",
+    "Only PNG,JPG,JPEG files allowed" : "Only PNG,JPG,JEPG files allowed",
     "Upload from PC" : "Upload from PC"
   }
 
