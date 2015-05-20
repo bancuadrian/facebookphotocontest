@@ -42,11 +42,13 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                     scope.anyError = false;
 
                     scope.setAction = function(action){
-                        scope.action = action;
                         if(action == 'UPLOAD_FACEBOOK')
                         {
                             scope.getAlbums();
+                            return;
                         }
+
+                        scope.action = action;
                     }
 
                     scope.getAlbums = function(paging)
@@ -59,6 +61,7 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
                             {
                                 $timeout(function(){
                                     delete(scope.albums);
+                                    scope.action = 'UPLOAD_FACEBOOK';
                                     scope.albums = response.data;
                                     scope.$apply();
                                 });
@@ -172,7 +175,7 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
 
                         $http.post('/savePhoto',request).then(
                             function(response){
-
+                                scope.$emit('photo_saved',response.data);
                             },
                             function(error){
 
@@ -188,7 +191,7 @@ setActive.directive('photoDialog', function ($http,flowFactory,$timeout) {
 
                         $http.post('/savePhoto',request).then(
                             function(response){
-                                console.log(response);
+                                scope.$emit('photo_saved',response.data);
                             },
                             function(error){
                                 console.log(error);

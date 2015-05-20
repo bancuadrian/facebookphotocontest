@@ -11,9 +11,13 @@ class PhotoController extends Controller {
         IMAGETYPE_PNG
     ];
 
+    public $save_photo_path = '';
+    public $save_photo_folder = 'uploads';
+
     function __construct()
     {
         $this->session = new \Facebook\FacebookSession(\Auth::user()->token);
+        $this->save_photo_path = public_path()."/".$this->save_photo_folder;
     }
 
     public function checkPhotosPermissions()
@@ -42,11 +46,11 @@ class PhotoController extends Controller {
 
         $filename = uniqid().".".$ext;
 
-        $ifp = fopen(public_path()."/uploads/".$filename, "wb");
+        $ifp = fopen($this->save_photo_path."/".$filename, "wb");
         fwrite($ifp, base64_decode($data[1]));
         fclose($ifp);
 
-        $type = exif_imagetype(public_path()."/uploads/".$filename);
+        $type = exif_imagetype($this->save_photo_path."/".$filename);
 
         if(!in_array($type,$this->allow_image_types))
         {
@@ -61,7 +65,9 @@ class PhotoController extends Controller {
         $userPhoto->filename = $filename;
         $userPhoto->save();
 
-        return $filename;
+        $userPhoto->path = url("/".$this->save_photo_folder."/".$userPhoto->filename);
+
+        return $userPhoto;
 	}
 
     public function getAlbumsFromFacebook()
@@ -158,5 +164,17 @@ class PhotoController extends Controller {
         ];
 
         return $response;
+    }
+
+    public function getMyPhoto()
+    {
+        $userPhoto = UserPhoto::where('user_id',\Auth::user()->id)->where('status',1)->first();
+
+        if($userPhoto)
+        {
+            $userPhoto->path = url("/".$this->save_photo_folder."/".$userPhoto->filename);
+        }
+
+        return $userPhoto;
     }
 }

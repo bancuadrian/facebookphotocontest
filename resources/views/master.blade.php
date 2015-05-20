@@ -77,19 +77,10 @@
 
     <script src="{{ asset('/js/app/app.js') }}"></script>
     <script src="{{ asset('/js/app/directives/photo-dialog.js') }}"></script>
+    <script src="{{ asset('/js/app/directives/my-photo.js') }}"></script>
     <script src="{{ asset('/js/app/directives/loading.js') }}"></script>
 
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-
-    <script>
-        $(function() {
-            var navMain = $("#bs-example-navbar-collapse-1");
-
-            navMain.on("click", "a", null, function () {
-                navMain.collapse('hide');
-            });
-        });
-    </script>
 
     <script>
         window.fbAsyncInit = function() {

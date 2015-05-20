@@ -1,5 +1,9 @@
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12" ng-if="addPhoto">
         <photo-dialog></photo-dialog>
+    </div>
+
+    <div class="col-sm-12" ng-if="userHasPhoto">
+        <my-photo photo="myPhoto"></my-photo>
     </div>
 </div>

@@ -1,6 +1,15 @@
-var app = angular.module('photoContestApp',['ngRoute','ngCookies','ngStorage','pascalprecht.translate','pc.photoDialog','pc.loading']);
+var app = angular.module('photoContestApp',
+    [
+        'ngRoute',
+        'ngCookies',
+        'ngStorage',
+        'pascalprecht.translate',
+        'pc.photoDialog',
+        'pc.myPhoto',
+        'pc.loading']
+);
 
-app.config(['$routeProvider', function ($routeProvider) {
+app.config(['$routeProvider','$httpProvider', function ($routeProvider,$httpProvider) {
     $routeProvider.when('/', {
         templateUrl: '/tpl/home.html',
         resolve: {
@@ -28,7 +37,23 @@ app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/my-photo', {
         templateUrl: '/tpl/my-photo.html',
-        resolve: {}
+        controller: 'MyPhotoCtrl',
+        resolve: {
+            MyPhoto : function($q,$http){
+                var defer = $q.defer();
+
+                $http.get('/getMyPhoto').then(
+                    function(response){
+                        defer.resolve(response.data);
+                    },
+                    function(error){
+                        defer.reject('Error');
+                    }
+                );
+
+                return defer.promise;
+            }
+        }
     });
 
     $routeProvider.when('/friends-photos', {
@@ -37,6 +62,22 @@ app.config(['$routeProvider', function ($routeProvider) {
     });
 
     $routeProvider.otherwise({redirectTo: '/'});
+
+    $httpProvider.interceptors.push(function($q){
+        return {
+            'request':function(config){
+                return config;
+            },
+            'response': function (response) {
+                return response;
+            },
+            'responseError': function (rejection) {
+                return $q.reject(rejection);
+            }
+        };
+    });
+
+    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 }]);
 
 app.run(['$rootScope',function($rootScope){
@@ -64,3 +105,26 @@ app.config(['$translateProvider', function($translateProvider){
 
     $translateProvider.useSanitizeValueStrategy('escaped');
 }]);
+
+app.controller('MyPhotoCtrl',function($scope,MyPhoto){
+    $scope.addPhoto = true;
+    $scope.userHasPhoto = false;
+
+    if(MyPhoto)
+    {
+        $scope.myPhoto = MyPhoto;
+        $scope.userHasPhoto = true;
+        $scope.addPhoto = false;
+    }
+
+    $scope.$on('change_picture',function(){
+        $scope.addPhoto = true;
+        $scope.userHasPhoto = false;
+    });
+
+    $scope.$on('photo_saved',function(event,data){
+        $scope.myPhoto = data;
+        $scope.addPhoto = false;
+        $scope.userHasPhoto = true;
+    });
+});

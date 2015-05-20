@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-if="!action">
     <div class="col-sm-6 text-center">
         <a href="javascript:void(0)" ng-click="setAction('UPLOAD_FACEBOOK')" translate="My Photo.Upload from Facebook">Upload from Facebook</a>
     </div>
@@ -71,6 +71,32 @@
     </div>
 </div>
 
+<script type="text/ng-template" id="/buttons-albums.html">
+    <a href="javascript:void(0)" class="btn btn-default" ng-click="previousPage()" style="float:left">
+        <span class="glyphicon glyphicon-backward"></span>
+        <span translate="Previous Page">Previous Page</span>
+    </a>
+    <a href="javascript:void(0)" class="btn btn-default" ng-click="nextPage()" style="float:right">
+        <span class="glyphicon glyphicon-forward"></span>
+        <span translate="Next Page">Next Page</span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="/buttons-photos.html">
+    <a href="javascript:void(0)" class="btn btn-default" ng-click="previousPagePhotos()" style="float:left;margin-right: 10px;">
+        <span class="glyphicon glyphicon-backward"></span>
+        <span translate="Previous Page">Previous Page</span>
+    </a>
+    <a href="javascript:void(0)" class="btn btn-default" ng-click="backToAlbums()" style="float:left">
+        <span class="glyphicon glyphicon-backward"></span>
+        <span translate="Back To Albums">Back To Albums</span>
+    </a>
+    <a href="javascript:void(0)" class="btn btn-default" ng-click="nextPagePhotos()" style="float:right">
+        <span class="glyphicon glyphicon-forward"></span>
+        <span translate="Next Page">Next Page</span>
+    </a>
+</script>
+
 <div class="row" ng-if="action=='UPLOAD_FACEBOOK'">
     <div class="col-sm-12">
         <div class="row">
@@ -79,7 +105,12 @@
                     <a name="image-example" class="anchor" href="#image-example">
                         <span class="octicon octicon-link"></span>
                     </a>
-                    <span translate="My Photo.Upload from Facebook">Upload from Facebook</span>
+                    <span translate="My Photo.Your Facebook Albums" ng-if="!gotPhotos">
+                        Your Facebook Albums
+                    </span>
+                    <span>
+                        {{ current_album.name }}
+                    </span>
                 </h3>
 
                 <div class="thumbnail ng-hide" ng-show="$flow.files.length">
@@ -92,10 +123,7 @@
 <div class="row" ng-show="action=='UPLOAD_FACEBOOK' && !gotPhotos">
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-sm-12">
-                <button ng-click="nextPage()" translate="Next Page">Next Page</button>
-                <button ng-click="previousPage()" translate="Previous Page">Previous Page</button>
-            </div>
+            <div class="col-sm-12" ng-include="'/buttons-albums.html'"></div>
         </div>
         <div class="row">
             <div deckgrid class="deckgrid" source="albums.data">
@@ -111,17 +139,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12" ng-include="'/buttons-albums.html'"></div>
+        </div>
     </div>
 </div>
 
 <div class="row" ng-if="action=='UPLOAD_FACEBOOK' && gotPhotos && !showPhotoPreview">
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-sm-12">
-                <button ng-click="nextPagePhotos()" translate="Next Page">Next Page</button>
-                <button ng-click="previousPagePhotos()" translate="Previous Page">Previous Page</button>
-                <button ng-click="backToAlbums()" translate="Back To Albums">Back To Albums</button>
-            </div>
+            <div class="col-sm-12" ng-include="'/buttons-photos.html'"></div>
         </div>
         <div class="row">
             <div class="col-sm-12">
@@ -136,6 +163,9 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12" ng-include="'/buttons-photos.html'"></div>
+        </div>
     </div>
 </div>
 
@@ -143,16 +173,15 @@
     <div class="col-sm-12">
         <div class="thumbnail">
             <img src="" ng-src="{{ facebookPhoto }}" class="img-responsive" id="photoUpload">
-        </div>
+                <div class="text-center" style="margin-top: 30px">
+                <span class="btn btn-success" ng-click="savePhotoFacebook()" translate="My Photo.Save Photo">
+                    Save Photo
+                </span>
 
-        <div class="text-center" style="margin-top: 30px">
-            <span class="btn btn-success" ng-click="savePhotoFacebook()" translate="My Photo.Save Photo">
-                Save Photo
-            </span>
-
-            <span class="btn btn-default" ng-click="backToPhotos()" translate="My Photo.Back">
-                Back
-            </span>
+                <span class="btn btn-default" ng-click="backToPhotos()" translate="My Photo.Back">
+                    Back
+                </span>
+            </div>
         </div>
     </div>
 </div>
