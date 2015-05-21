@@ -8,9 +8,8 @@
 		"laravel/framework": "5.0.*",
         "facebook/php-sdk-v4" : "4.0.*",
         "laravel/socialite": "~2.0",
-        "jalle19/php-whitelist-check": "dev-master",
         "geoip2/geoip2": "dev-master",
-        "weboap/visitor": "dev-master",
+        "fzaninotto/faker": "~1.4",
         "sammyk/facebook-query-builder": "~1.1"
 	},
 	"require-dev": {

@@ -58,7 +58,7 @@ class PhotoController extends Controller {
         }
 
         // deactivate other photos
-        $affected = UserPhoto::where('status', '=', 1)->update(array('status' => 0));
+        $affected = UserPhoto::where('status', '=', 1)->where('user_id',\Auth::user()->id)->update(array('status' => 0));
 
         $userPhoto = new UserPhoto();
         $userPhoto->user_id = \Auth::user()->id;
@@ -203,7 +203,7 @@ class PhotoController extends Controller {
             ->where('status',1)
             ->orderByRaw('rand("'.date('Ymdh').'")')
             ->select('id','user_id','filename')
-            ->paginate(7);
+            ->paginate(30);
 
         $photos->each(function($photo){
             $photo->path = url("/".$this->save_photo_folder."/".$photo->filename);
