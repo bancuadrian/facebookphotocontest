@@ -24,6 +24,7 @@ namespace :deploy do
                 execute :ln, "-s #{shared_path}/logs storage/logs" # symlink uploads
                 execute :ln, "-s #{shared_path}/backups backups" # symllink ips-files uploads
                 execute :ln, "-s #{shared_path}/uploads public/uploads" # symllink ips-files uploads
+                execute :ln, "-s #{shared_path}/sample_images sample_images" # symllink ips-files uploads
             end
         end
     end
