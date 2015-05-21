@@ -20,7 +20,6 @@ namespace :deploy do
                 execute :composer, "install" # install dependencies
                 execute :chmod, "u+x artisan" # make artisan executable
                 execute :php, "artisan cron:install" # make artisan executable
-                execute :php, "artisan migrate" # make artisan executable
                 execute :rm, "-rf storage/logs" # remove logs folder
                 execute :ln, "-s #{shared_path}/logs storage/logs" # symlink uploads
                 execute :ln, "-s #{shared_path}/backups backups" # symllink ips-files uploads
