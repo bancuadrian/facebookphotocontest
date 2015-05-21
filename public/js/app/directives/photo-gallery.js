@@ -117,6 +117,23 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                         }
                     }
 
+                    scope.votePhoto = function(photo)
+                    {
+                        $http.post('/votePhoto',{photo:photo}).then(
+                            function(response)
+                            {
+                                if(response.data.vote_registered)
+                                {
+                                    photo['votes_count'] = response.data.photo['votes_count'];
+                                }
+                            },
+                            function(error)
+                            {
+                                console.log(error);
+                            }
+                        );
+                    }
+
                     getPhotos();
                 },
                 post: function postLink(scope, element, iAttrs, controller) {

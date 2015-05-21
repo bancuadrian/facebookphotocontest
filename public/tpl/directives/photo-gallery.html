@@ -26,7 +26,7 @@
                             </div>
                             <div class="photo-actions">
                                 <span style="float:left;padding-left:10px">
-                                    139<span class="glyphicon glyphicon-heart"></span>
+                                    {{ card.votes_count.aggregate || 0}}<span class="glyphicon glyphicon-heart"></span>
                                 </span>
                                 <span style="float:right;padding-right:10px">
                                     <span class="glyphicon glyphicon-ok"></span>
@@ -42,7 +42,7 @@
 </div>
 
 <div class="row" ng-if="currentPhoto">
-    <view-photo photo="currentPhoto" on-close="hideCurrentPhoto()" next="nextPhoto()" prev="previousPhoto()"></view-photo>
+    <view-photo photo="currentPhoto" on-close="hideCurrentPhoto()" next="nextPhoto()" prev="previousPhoto()" vote="votePhoto(currentPhoto)"></view-photo>
 </div>
 
 <style>

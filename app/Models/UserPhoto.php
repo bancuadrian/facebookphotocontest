@@ -18,4 +18,15 @@ class UserPhoto extends Model{
         return $this->belongsTo('App\User');
     }
 
+    public function votes()
+    {
+        return $this->hasMany('App\Models\Vote','photo_id','id');
+    }
+
+    public function votesCount()
+    {
+        return $this->hasOne('App\Models\Vote','photo_id')
+            ->selectRaw('photo_id, count(*) as aggregate')
+            ->groupBy('photo_id');
+    }
 }

@@ -7,7 +7,8 @@ setActive.directive('viewPhoto', function ($http,flowFactory,$timeout) {
             photo : '=',
             closeAction : '&onClose',
             next : '&next',
-            prev : '&prev'
+            prev : '&prev',
+            vote : '&vote'
         },
         templateUrl : '/tpl/directives/view-photo.html',
         link: function(scope, element, attrs){

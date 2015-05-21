@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\UserPhoto;
+use App\Models\Vote;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class PhotoController extends Controller {
 
@@ -200,6 +203,7 @@ class PhotoController extends Controller {
             with(['user'=>function($query){
                 $query->select(['id','name','avatar']);
             }])
+            ->with('votesCount')
             ->where('status',1)
             ->orderByRaw('rand("'.date('Ymdh').'")')
             ->select('id','user_id','filename')
@@ -210,5 +214,37 @@ class PhotoController extends Controller {
         });
 
         return $photos;
+    }
+
+    public function votePhoto()
+    {
+        $input = \Request::all();
+        $vote_registered = 'false';
+
+        $photo = $input['photo'];
+
+        if(User::canVote($input['photo']['id']))
+        {
+            $vote = new Vote();
+            $vote->photo_id = $input['photo']['id'];
+            $vote->user_id = Auth::user()->id;
+            $vote->ip = $_SERVER['REMOTE_ADDR'];
+            $vote->save();
+            $vote_registered = 'true';
+
+            $photo = UserPhoto::
+                with(['user'=>function($query){
+                    $query->select(['id','name','avatar']);
+                }])
+                ->with('votesCount')
+                ->where('status',1)
+                ->select('id','user_id','filename')
+                ->find($input['photo']['id']);
+        }
+
+        return [
+            "photo"=>$photo,
+            "vote_registered" => $vote_registered
+        ];
     }
 }
