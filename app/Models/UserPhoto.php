@@ -13,4 +13,9 @@ class UserPhoto extends Model{
 	 */
 	protected $fillable = ['user_id', 'filename'];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

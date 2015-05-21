@@ -78,6 +78,8 @@
     <script src="{{ asset('/js/app/app.js') }}"></script>
     <script src="{{ asset('/js/app/directives/photo-dialog.js') }}"></script>
     <script src="{{ asset('/js/app/directives/my-photo.js') }}"></script>
+    <script src="{{ asset('/js/app/directives/photo-gallery.js') }}"></script>
+    <script src="{{ asset('/js/app/directives/show-photo.js') }}"></script>
     <script src="{{ asset('/js/app/directives/loading.js') }}"></script>
 
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">

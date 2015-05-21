@@ -193,4 +193,22 @@ class PhotoController extends Controller {
 
         return ['removed'=>'ok'];
     }
+
+    public function getAllPhotos()
+    {
+        $photos = UserPhoto::
+            with(['user'=>function($query){
+                $query->select(['id','name','avatar']);
+            }])
+            ->where('status',1)
+            ->orderByRaw('rand("'.date('Ymdh').'")')
+            ->select('id','user_id','filename')
+            ->paginate(7);
+
+        $photos->each(function($photo){
+            $photo->path = url("/".$this->save_photo_folder."/".$photo->filename);
+        });
+
+        return $photos;
+    }
 }

@@ -6,6 +6,7 @@ var app = angular.module('photoContestApp',
         'pascalprecht.translate',
         'pc.photoDialog',
         'pc.myPhoto',
+        'pc.photoGallery',
         'pc.loading']
 );
 
