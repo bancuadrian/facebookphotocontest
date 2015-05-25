@@ -214,26 +214,81 @@ class PhotoController extends Controller {
 
     public function getFriendsPhotos()
     {
+        $friends = [];
+
         if(!$this->checkFriendsPermissions())
         {
             return response(['scope_required'=>'user_friends'],412);
         }
 
         //get all friends from Facebook
-        $facebook_query_string = '/me/friends?fields=id,name&limit=50';
 
-        $request = new \Facebook\FacebookRequest($this->session, 'GET', $facebook_query_string);
-        $response = $request->execute();
-        $friends = $response->getGraphObject()->asArray();
+        $getOut = false;
+        $next = '/me/friends?fields=id,name';
+        while(!$getOut)
+        {
+            $f = $this->getFriends($next);
 
-        return $friends;
+            if(isset($f['data']) && count($f['data']))
+            {
+                foreach($f['data'] as $friend)
+                {
+                    $friends[] = $friend;
+                }
+
+                $next = null;
+
+                if(isset($f['paging']->next))
+                {
+                    $url = $f['paging']->next;
+                    $query_str = parse_url($url, PHP_URL_QUERY);
+                    parse_str($query_str, $next);
+                    unset($next['access_token']);
+                    $params = [];
+
+                    foreach($next as $key=>$value)
+                    {
+                        $params[] = $key.'='.$value;
+                    }
+
+                    $next = '/me/friends?'.implode("&",$params);
+                }
+
+            }else{
+                $getOut = true;
+            }
+        }
+
+
+        $friends = array_map(function($e){
+            return $e->id;
+        },$friends);
+
+        $this->friends = $friends;
+        $this->rankings = true;
+
+        return $this->getAllPhotos();;
         // search DB for friend's id
         // return photos
     }
 
+    public function getFriends($link)
+    {
+        if(!$link)
+        {
+            return [];
+        }
+
+        $request = new \Facebook\FacebookRequest($this->session, 'GET', $link);
+        $response = $request->execute();
+        $f = $response->getGraphObject()->asArray();
+
+        return $f;
+    }
+
     public function getAllPhotos()
     {
-        $rankings = \Input::get('rankings');
+        $this->rankings = isset($this->rankings) ? $this->rankings : \Input::get('rankings');
 
         $photos = UserPhoto::
             with(['user'=>function($query){
@@ -246,7 +301,7 @@ class PhotoController extends Controller {
         $photos = $photos->orderByRaw('rand("'.date('Ymdh').'")');
         $photos = $photos->paginate(30);
 
-        if($rankings)
+        if($this->rankings)
         {
             $photos = UserPhoto::
                 with(['user'=>function($query){
@@ -257,8 +312,17 @@ class PhotoController extends Controller {
                 ->groupBy('votes.photo_id')
                 ->orderBy('aggregate','desc')
                 ->orderBy('votes.created_at','desc')
-                ->where('status',1)
-                ->paginate(10);
+                ->where('status',1);
+
+            if(isset($this->friends))
+            {
+                $friends = $this->friends;
+                $photos = $photos->whereHas('user',function($q) use ($friends){
+                    $q->whereIn('fb_id',$friends);
+                });
+            }
+
+            $photos = $photos->paginate(10);
 
             $photos->each(function($photo){
                 $photo->votes_count = new \stdClass();
