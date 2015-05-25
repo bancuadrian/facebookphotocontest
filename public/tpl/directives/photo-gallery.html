@@ -45,6 +45,34 @@
     <view-photo photo="currentPhoto" on-close="hideCurrentPhoto()" next="nextPhoto()" prev="previousPhoto()" vote="votePhoto(currentPhoto)"></view-photo>
 </div>
 
+<div class="row" ng-if="friendsAccessError">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="text-center">
+                    <a href="javascript:void(0)" ng-click="getFriendsScope()" translate="My Photo.Could not get access to facebook photos">
+                        Could not get access to facebook photos
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="anyError">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="text-center">
+                    <span translate="My Photo.Any Error">
+                        Any Error
+                    </span>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     .photo .photo-info{
         text-align: center;

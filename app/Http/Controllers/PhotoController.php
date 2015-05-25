@@ -38,6 +38,19 @@ class PhotoController extends Controller {
         return count($permissions);
     }
 
+    public function checkFriendsPermissions()
+    {
+        $request = new \Facebook\FacebookRequest($this->session, 'GET', '/me/permissions');
+        $response = $request->execute();
+        $permissions = $response->getGraphObject()->asArray();
+
+        $permissions = array_filter($permissions,function($v){
+            return ($v->permission == 'user_friends' && $v->status == 'granted');
+        });
+
+        return count($permissions);
+    }
+
     public function savePhoto()
 	{
         $input = \Request::all();
@@ -199,6 +212,25 @@ class PhotoController extends Controller {
         return ['removed'=>'ok'];
     }
 
+    public function getFriendsPhotos()
+    {
+        if(!$this->checkFriendsPermissions())
+        {
+            return response(['scope_required'=>'user_friends'],412);
+        }
+
+        //get all friends from Facebook
+        $facebook_query_string = '/me/friends?fields=id,name&limit=50';
+
+        $request = new \Facebook\FacebookRequest($this->session, 'GET', $facebook_query_string);
+        $response = $request->execute();
+        $friends = $response->getGraphObject()->asArray();
+
+        return $friends;
+        // search DB for friend's id
+        // return photos
+    }
+
     public function getAllPhotos()
     {
         $rankings = \Input::get('rankings');
@@ -212,7 +244,7 @@ class PhotoController extends Controller {
 
         $photos = $photos->select('id','user_id','filename');
         $photos = $photos->orderByRaw('rand("'.date('Ymdh').'")');
-        $photos = $photos->paginate(130);
+        $photos = $photos->paginate(30);
 
         if($rankings)
         {

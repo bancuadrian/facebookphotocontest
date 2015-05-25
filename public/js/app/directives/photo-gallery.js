@@ -4,7 +4,8 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
     return {
         restrict: 'E',
         scope: {
-            rankings : '='
+            rankings : '=',
+            friends : '='
         },
         templateUrl : '/tpl/directives/photo-gallery.html',
         compile: function compile(tElement, tAttrs, transclude) {
@@ -40,6 +41,26 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                         );
 
                         return defer.promise;
+                    }
+
+                    var getFriendsPhotos = function()
+                    {
+                        $http.get('/friendsPhoto').then(
+                            function(response)
+                            {
+                                console.log(response);
+                            },
+                            function(error)
+                            {
+                                if(error.data.scope_required)
+                                {
+                                    scope.friendsAccessError = true;
+                                    return;
+                                }
+
+                                scope.anyError = true;
+                            }
+                        );
                     }
 
                     scope.nextPage = function(select_first)
@@ -143,7 +164,21 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                         );
                     }
 
-                    getPhotos();
+                    scope.getFriendsScope = function()
+                    {
+                        FB.login(function(response){
+                            getFriendsPhotos();
+                        },{scope: 'user_friends',auth_type:'rerequest'});
+                    }
+
+                    if(scope.friends)
+                    {
+                        getFriendsPhotos();
+                    }
+                    else
+                    {
+                        getPhotos();
+                    }
                 },
                 post: function postLink(scope, element, iAttrs, controller) {
 

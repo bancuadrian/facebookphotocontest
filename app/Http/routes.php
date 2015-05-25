@@ -25,6 +25,8 @@ Route::group(['middleware' => ['auth']], function()
 
     Route::post('/getAllPhotos','PhotoController@getAllPhotos');
 
+    Route::get('/friendsPhoto','PhotoController@getFriendsPhotos');
+
     Route::post('/votePhoto','PhotoController@votePhoto');
 
     Route::get('/t2',function(){
