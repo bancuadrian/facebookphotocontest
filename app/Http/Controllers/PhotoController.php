@@ -3,7 +3,9 @@
 use App\Models\UserPhoto;
 use App\Models\Vote;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PhotoController extends Controller {
 
@@ -199,21 +201,54 @@ class PhotoController extends Controller {
 
     public function getAllPhotos()
     {
+        $rankings = \Input::get('rankings');
+
         $photos = UserPhoto::
             with(['user'=>function($query){
                 $query->select(['id','name','avatar']);
             }])
             ->with('votesCount')
-            ->where('status',1)
-            ->orderByRaw('rand("'.date('Ymdh').'")')
-            ->select('id','user_id','filename')
-            ->paginate(30);
+            ->where('status',1);
 
-        $photos->each(function($photo){
+        $photos = $photos->select('id','user_id','filename');
+        $photos = $photos->orderByRaw('rand("'.date('Ymdh').'")');
+        $photos = $photos->paginate(130);
+
+        if($rankings)
+        {
+            $photos = UserPhoto::
+                with(['user'=>function($query){
+                    $query->select(['id','name','avatar']);
+                }])
+                ->join('votes','votes.photo_id','=','userphotos.id')
+                ->select(DB::raw('userphotos.id,userphotos.user_id,userphotos.filename,count(*) as aggregate'))
+                ->groupBy('votes.photo_id')
+                ->orderBy('aggregate','desc')
+                ->orderBy('votes.created_at','desc')
+                ->where('status',1)
+                ->paginate(10);
+
+            $photos->each(function($photo){
+                $photo->votes_count = new \stdClass();
+                $photo->votes_count->photo_id = $photo->id;
+                $photo->votes_count->aggregate = $photo->aggregate;
+                unset($photo->aggregate);
+            });
+
+            return $this->formatPhotoCollection($photos);
+
+        }
+
+        return $this->formatPhotoCollection($photos);
+    }
+
+    public function formatPhotoCollection($photoCollection)
+    {
+        $photoCollection->each(function($photo){
             $photo->path = url("/".$this->save_photo_folder."/".$photo->filename);
         });
 
-        return $photos;
+        return $photoCollection;
     }
 
     public function votePhoto()

@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('/getMyPhoto','PhotoController@getMyPhoto');
     Route::post('/removeMyPhoto','PhotoController@removeMyPhoto');
 
-    Route::get('/getAllPhotos','PhotoController@getAllPhotos');
+    Route::post('/getAllPhotos','PhotoController@getAllPhotos');
 
     Route::post('/votePhoto','PhotoController@votePhoto');
 

@@ -13,7 +13,7 @@ class Vote extends Model{
 
     public function photo()
     {
-        return $this->hasOne('App\Models\UserPhoto');
+        return $this->hasOne('App\Models\UserPhoto','id','photo_id');
     }
 
 }

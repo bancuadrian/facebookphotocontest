@@ -3,7 +3,9 @@ var setActive = angular.module('pc.photoGallery',['akoenig.deckgrid','pc.viewPho
 setActive.directive('photoGallery', function ($http,$q,$timeout) {
     return {
         restrict: 'E',
-        scope: {},
+        scope: {
+            rankings : '='
+        },
         templateUrl : '/tpl/directives/photo-gallery.html',
         compile: function compile(tElement, tAttrs, transclude) {
             return {
@@ -16,12 +18,19 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                         var defer = $q.defer();
                         var url = '/getAllPhotos';
 
+                        var request = {};
+
                         if(page)
                         {
-                            url += '?page=' + page;
+                            request.page = page;
                         }
 
-                        $http.get(url).then(
+                        if(scope.rankings)
+                        {
+                            request.rankings = scope.rankings;
+                        }
+
+                        $http.post(url,request).then(
                             function(response)
                             {
                                 scope.response = response.data;
