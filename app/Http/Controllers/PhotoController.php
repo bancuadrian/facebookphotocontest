@@ -298,7 +298,7 @@ class PhotoController extends Controller {
 
         $photos = $photos->orderByRaw('rand("'.date('Ymdh').'")');
 
-        $photos = ($friends)
+        $photos = (isset($this->friends))
             ?
                 $photos->whereHas('user',function($q) use ($friends){
                     $q->whereIn('fb_id',$friends);
