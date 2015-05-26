@@ -1,6 +1,6 @@
 var setActive = angular.module('pc.photoGallery',['akoenig.deckgrid','pc.viewPhoto']);
 
-setActive.directive('photoGallery', function ($http,$q,$timeout) {
+setActive.directive('photoGallery', function ($http,$q,$routeParams) {
     return {
         restrict: 'E',
         scope: {
@@ -14,7 +14,7 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                     scope.response = {};
                     scope.currentPhoto = null;
 
-                    var getPhotos = function(page)
+                    var getPhotos = function(page,photo_id)
                     {
                         var defer = $q.defer();
                         var url = '/getAllPhotos';
@@ -24,6 +24,11 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                         if(page)
                         {
                             request.page = page;
+                        }
+
+                        if(photo_id)
+                        {
+                            request.photo_id = photo_id;
                         }
 
                         if(scope.rankings)
@@ -174,11 +179,26 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                     if(scope.friends)
                     {
                         getFriendsPhotos();
+                        return;
                     }
-                    else
+
+                    if($routeParams.view_photo && !isNaN($routeParams.view_photo))
                     {
-                        getPhotos();
+                        getPhotos(0,$routeParams.view_photo).then(
+                            function(response)
+                            {
+                                angular.forEach(scope.response.data,function(photo){
+                                    if(photo.id == $routeParams.view_photo)
+                                    {
+                                        scope.previewPhoto(photo);
+                                    }
+                                });
+                            }
+                        );
+                        return;
                     }
+
+                    getPhotos();
                 },
                 post: function postLink(scope, element, iAttrs, controller) {
 

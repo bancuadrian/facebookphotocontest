@@ -58,6 +58,10 @@
 
     <loading></loading>
 
+    <script>
+        var contest_name = '{{ env('CONTEST_NAME') }}';
+        var app_url = '{{ env('APP_URL') }}';
+    </script>
 	<!-- Scripts -->
     <script src="{{ asset('/js/jquery.min.js') }}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -85,6 +89,7 @@
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
 
     <script>
+        var contest_name = '{{ env('CONTEST_NAME') }}';
         window.fbAsyncInit = function() {
             FB.init({
                 appId      : '{{  Config::get('services.facebook.client_id') }}',

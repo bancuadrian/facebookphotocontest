@@ -285,28 +285,64 @@ class PhotoController extends Controller {
         return $f;
     }
 
-    public function getAllPhotos()
+    public function queryPhotos($rankings = null,$friends = null)
     {
-        $this->rankings = isset($this->rankings) ? $this->rankings : \Input::get('rankings');
-        $friends = (isset($this->friends)) ? $this->friends : null;
-
         $photos = UserPhoto::
-            with(['user'=>function($query){
-                $query->select(['id','name','avatar']);
-            }])
+        with(['user'=>function($query){
+            $query->select(['id','name','avatar']);
+        }])
             ->select(['id','user_id','filename']);
 
         $photos = $photos->orderByRaw('rand("'.date('Ymdh').'")');
 
-        $photos = (isset($this->friends))
+        $photos = (isset($friends))
             ?
-                $photos->whereHas('user',function($q) use ($friends){
-                    $q->whereIn('fb_id',$friends);
-                })
+            $photos->whereHas('user',function($q) use ($friends){
+                $q->whereIn('fb_id',$friends);
+            })
             :
-                $photos;
+            $photos;
 
-        $photos = ($this->rankings) ? $photos->get() : $photos->paginate(30);
+        $photos = ($rankings) ? $photos->get() : $photos->paginate(30);
+
+        return $photos;
+    }
+
+    public function getAllPhotos()
+    {
+        $rankings = isset($this->rankings) ? $this->rankings : \Input::get('rankings');
+        $friends = (isset($this->friends)) ? $this->friends : null;
+        $photo_id = \Input::get('photo_id');
+
+        $photos = $this->queryPhotos($rankings,$friends);
+
+        if($photo_id)
+        {
+            $found = false;
+            while(!$found)
+            {
+                $photos->each(function($photo) use (&$found,$photo_id){
+                    if($photo->id == $photo_id)
+                    {
+                        $found = true;
+                    }
+                });
+
+                if(!$found)
+                {
+                    $isLastPage = $photos->currentPage() == $photos->lastPage();
+
+                    $input = \Input::all();
+                    $input['page'] = ($isLastPage) ? 1 : ($photos->currentPage() + 1);
+
+                    \Input::replace($input);
+
+                    $photos = $this->queryPhotos($rankings,$friends);
+
+                    $found = ($isLastPage) ? true : $found;
+                }
+            }
+        }
 
         $photos->each(function($photo){
             // get photo votes
@@ -317,7 +353,7 @@ class PhotoController extends Controller {
 
         $photos = $this->formatPhotoCollection($photos);
 
-        if($this->rankings)
+        if($rankings)
         {
             $p = $photos->all();
             usort($p,function($a,$b){
@@ -339,7 +375,6 @@ class PhotoController extends Controller {
             unset($photos);
             $photos['data'] = $p;
         }
-
 
         return $photos;
     }

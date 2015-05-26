@@ -25,6 +25,18 @@ setActive.directive('viewPhoto', function ($http,flowFactory,$timeout) {
             }
         },
         controller : function($scope){
+            $scope.share = function(){
+                var obj = {
+                    method: 'feed',
+                    link: app_url + '/#/gallery?view_photo='+$scope.photo.id,
+                    name: contest_name,
+                    description: "Help me win votes",
+                    picture: $scope.photo.path
+                };
+
+                FB.ui(obj, function(response){
+                });
+            }
         }
     };
 });
