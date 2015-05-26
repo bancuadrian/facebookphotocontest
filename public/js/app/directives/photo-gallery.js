@@ -5,7 +5,8 @@ setActive.directive('photoGallery', function ($http,$q,$routeParams) {
         restrict: 'E',
         scope: {
             rankings : '=',
-            friends : '='
+            friends : '=',
+            title : '@'
         },
         templateUrl : '/tpl/directives/photo-gallery.html',
         compile: function compile(tElement, tAttrs, transclude) {

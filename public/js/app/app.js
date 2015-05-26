@@ -62,6 +62,11 @@ app.config(['$routeProvider','$httpProvider', function ($routeProvider,$httpProv
         resolve: {}
     });
 
+    $routeProvider.when('/privacy', {
+        templateUrl: '/tpl/privacy.html',
+        resolve: {}
+    });
+
     $routeProvider.otherwise({redirectTo: '/'});
 
     $httpProvider.interceptors.push(function($q){
@@ -89,6 +94,20 @@ app.run(['$rootScope',function($rootScope){
             return '';
         }
     });
+
+    $rootScope.shareFB = function()
+    {
+        var obj = {
+            method: 'feed',
+            link: app_url,
+            name: contest_name,
+            description: "Photo Contest",
+            //picture: scope.photo.path
+        };
+
+        FB.ui(obj, function(response){
+        });
+    }
 }]);
 
 app.config(['$translateProvider', function($translateProvider){

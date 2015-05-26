@@ -43,8 +43,9 @@
                     <li class="dropdown">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" translate="Menu.Share">Share</a></li>
-                            <li><a href="#" translate="Menu.Privacy Information">Privacy Information</a></li>
+                            <li><a href="javascript:void(0)" ng-click="shareFB()" translate="Menu.Share">Share</a></li>
+                            <li><a href="{{ url('/#/privacy') }}" translate="Menu.Privacy Information">Privacy Information</a></li>
+                            <li><a href="{{ url('/auth/logout') }}" translate="Menu.Logout">Logout</a></li>
                         </ul>
                     </li>
 				</ul>

