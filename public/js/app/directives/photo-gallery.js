@@ -48,7 +48,7 @@ setActive.directive('photoGallery', function ($http,$q,$timeout) {
                         $http.get('/friendsPhoto').then(
                             function(response)
                             {
-                                console.log(response);
+                                scope.response = response.data;
                             },
                             function(error)
                             {

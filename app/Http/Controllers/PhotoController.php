@@ -191,6 +191,7 @@ class PhotoController extends Controller {
         if($userPhoto)
         {
             $userPhoto->path = url("/".$this->save_photo_folder."/".$userPhoto->filename);
+            $userPhoto->votes = Vote::where('photo_id',$userPhoto->id)->count();
         }
 
         return $userPhoto;
@@ -267,9 +268,7 @@ class PhotoController extends Controller {
         $this->friends = $friends;
         $this->rankings = true;
 
-        return $this->getAllPhotos();;
-        // search DB for friend's id
-        // return photos
+        return $this->getAllPhotos();
     }
 
     public function getFriends($link)
@@ -289,53 +288,60 @@ class PhotoController extends Controller {
     public function getAllPhotos()
     {
         $this->rankings = isset($this->rankings) ? $this->rankings : \Input::get('rankings');
+        $friends = (isset($this->friends)) ? $this->friends : null;
 
         $photos = UserPhoto::
             with(['user'=>function($query){
                 $query->select(['id','name','avatar']);
             }])
-            ->with('votesCount')
-            ->where('status',1);
+            ->select(['id','user_id','filename']);
 
-        $photos = $photos->select('id','user_id','filename');
         $photos = $photos->orderByRaw('rand("'.date('Ymdh').'")');
-        $photos = $photos->paginate(30);
+
+        $photos = ($friends)
+            ?
+                $photos->whereHas('user',function($q) use ($friends){
+                    $q->whereIn('fb_id',$friends);
+                })
+            :
+                $photos;
+
+        $photos = ($this->rankings) ? $photos->get() : $photos->paginate(30);
+
+        $photos->each(function($photo){
+            // get photo votes
+            $photo->votes_count = new \stdClass();
+            $photo->votes_count->aggregate = Vote::where('photo_id',$photo->id)->count();
+            $photo->votes_count->photo_id = $photo->id;
+        });
+
+        $photos = $this->formatPhotoCollection($photos);
 
         if($this->rankings)
         {
-            $photos = UserPhoto::
-                with(['user'=>function($query){
-                    $query->select(['id','name','avatar']);
-                }])
-                ->join('votes','votes.photo_id','=','userphotos.id')
-                ->select(DB::raw('userphotos.id,userphotos.user_id,userphotos.filename,count(*) as aggregate'))
-                ->groupBy('votes.photo_id')
-                ->orderBy('aggregate','desc')
-                ->orderBy('votes.created_at','desc')
-                ->where('status',1);
+            $p = $photos->all();
+            usort($p,function($a,$b){
+                if ($a['votes_count']->aggregate == $b['votes_count']->aggregate) {
+                    return 0;
+                }
+                return ($a['votes_count']->aggregate > $b['votes_count']->aggregate) ? -1 : 1;
+            });
+            $photos->splice(0,$photos->count());
 
-            if(isset($this->friends))
+            foreach($p as $element)
             {
-                $friends = $this->friends;
-                $photos = $photos->whereHas('user',function($q) use ($friends){
-                    $q->whereIn('fb_id',$friends);
-                });
+                $photos->push($element);
             }
 
-            $photos = $photos->paginate(10);
+            $photos->splice(10,$photos->count() - 10);
 
-            $photos->each(function($photo){
-                $photo->votes_count = new \stdClass();
-                $photo->votes_count->photo_id = $photo->id;
-                $photo->votes_count->aggregate = $photo->aggregate;
-                unset($photo->aggregate);
-            });
-
-            return $this->formatPhotoCollection($photos);
-
+            $p = $photos;
+            unset($photos);
+            $photos['data'] = $p;
         }
 
-        return $this->formatPhotoCollection($photos);
+
+        return $photos;
     }
 
     public function formatPhotoCollection($photoCollection)
