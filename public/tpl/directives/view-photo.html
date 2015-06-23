@@ -7,14 +7,18 @@
         </div>
         <div class="row">
             <div class="col-sm-7">
-                <button class="btn btn-default" ng-click="prev()">Prev</button>
-                <button class="btn btn-default" ng-click="next()">Next</button>
-                <button class="btn btn-default" ng-click="vote()">Vote!</button>
-                <button class="btn btn-default" ng-click="share()">Share!</button>
-                <button class="btn btn-default" ng-click="closeAction()">Close</button>
+                <div title="Previous Photo" class="circleBase type2 icon icon-left" style="float:left" ng-click="prev()"></div>
+                <div title="Next Photo" class="circleBase type2 icon icon-right" style="float:left" ng-click="next()"></div>
+                <div title="Vote Photo" class="circleBase type2 icon icon-check-mark" style="float:left;color: #5ABC35" ng-click="vote()"></div>
+                <div title="Share Photo" class="circleBase type2 icon icon-share" style="float:left" ng-click="share()"></div>
+                <div title="Close" class="circleBase type2 icon icon-cancel" style="float:left" ng-click="closeAction()"></div>
             </div>
-            <div class="col-sm-5 text-right">
-                {{ photo.votes_count.aggregate || 0}}<span class="glyphicon glyphicon-heart"></span>
+            <div class="col-sm-5 text-right" style="font-size: 2em">
+                {{ photo.votes_count.aggregate || 0}}
+                <span style="margin-top:10px">
+                    <span class="icon icon-heart" style="color: red" ng-if="photo.votes_count.aggregate"></span>
+                    <span class="icon icon-heart" ng-if="!photo.votes_count.aggregate"></span>
+                </span>
             </div>
         </div>
         <div class="row">

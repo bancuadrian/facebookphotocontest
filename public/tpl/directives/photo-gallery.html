@@ -2,18 +2,19 @@
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h2>{{ title }}</h2>
+                <div class="circleBase type1 icon icon-picture" style="margin:0 auto;font-size: 2.9em;color:#035A8F"></div>
+                <div style="text-align: center;color:#035A8F;font-size:2em">
+                    {{ title }}
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a href="javascript:void(0)" class="btn btn-default" ng-click="previousPage()" style="float:left" ng-hide="!response.prev_page_url">
-                    <span class="glyphicon glyphicon-backward"></span>
-                    <span translate="Previous Page">Previous Page</span>
+                <a href="javascript:void(0)" ng-click="previousPage()" style="float:left" ng-hide="!response.prev_page_url" class="button-left">
+                    <span class="icon icon-left" style="font-size: 2em;cursor:pointer" style="float:left" ng-hide="!response.next_page_url"></span>
                 </a>
-                <a href="javascript:void(0)" class="btn btn-default" ng-click="nextPage()" style="float:right" ng-hide="!response.next_page_url">
-                    <span class="glyphicon glyphicon-forward"></span>
-                    <span translate="Next Page">Next Page</span>
+                <a href="javascript:void(0)" ng-click="nextPage()" style="float:right" ng-hide="!response.next_page_url" class="button-right">
+                    <span class="icon icon-right" style="font-size: 2em;cursor:pointer" style="float:right" ng-hide="!response.next_page_url"></span>
                 </a>
             </div>
         </div>
@@ -31,10 +32,12 @@
                             </div>
                             <div class="photo-actions">
                                 <span style="float:left;padding-left:10px">
-                                    {{ card.votes_count.aggregate || 0}}<span class="glyphicon glyphicon-heart"></span>
+                                    {{ card.votes_count.aggregate || 0}}
+                                    <span class="icon icon-heart" style="color: red" ng-show="card.votes_count.aggregate > 0"></span>
+                                    <span class="icon icon-heart" ng-hide="card.votes_count.aggregate > 0"></span>
                                 </span>
                                 <span style="float:right;padding-right:10px">
-                                    <span class="glyphicon glyphicon-ok" style="cursor: pointer" ng-click="mother.votePhoto(card)"></span>
+                                    <span class="icon icon-check-mark" style="cursor: pointer;color:#5ABC35" ng-click="mother.votePhoto(card)"></span>
                                 </span>
                                 <div class="clearfix"></div>
                             </div>

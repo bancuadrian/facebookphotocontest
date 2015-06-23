@@ -72,3 +72,33 @@
     border: 2px solid #035A8F;
     text-align: center;
 }
+
+.type2 {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    background: transparent;
+    border: 2px solid #035A8F;
+    color:#035A8F;
+    text-align: center;
+    font-size: 2em;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.button-right, .button-right:active,.button-right:hover,.button-right:focus{
+    text-decoration: none;
+    color:#000000;
+    border:0;
+    width:200px;
+    text-align: right;
+}
+
+.button-left, .button-left:active,.button-left:hover,.button-left:focus{
+    text-decoration: none;
+    color:#000000;
+    border:0;
+    width:200px;
+    text-align: left;
+}

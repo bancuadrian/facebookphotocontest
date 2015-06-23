@@ -71,3 +71,15 @@
 .icon-share:before {
   content: "k";
 }
+.icon-right:before {
+  content: "l";
+}
+.icon-left:before {
+  content: "m";
+}
+.icon-up:before {
+  content: "n";
+}
+.icon-down:before {
+  content: "o";
+}
