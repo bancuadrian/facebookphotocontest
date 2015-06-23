@@ -7,6 +7,8 @@
 	<title>Laravel</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
+	<link href="{{ asset('/fonts/photofonts/styles-font1.css') }}" rel="stylesheet">
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -19,7 +21,7 @@
 	<![endif]-->
 </head>
 <body>
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default top-menu">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">

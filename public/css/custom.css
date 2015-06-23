@@ -1,0 +1,58 @@
+.top-menu{
+    background-color: #035A8F;
+}
+
+.navbar-default .navbar-nav > li > a{
+    color: #ADD2E5;
+    font-weight: 400;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    background-color: #035A8F;
+    color: #FFFFFF;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #FFFFFF;
+    background-color: transparent;
+}
+
+@media (min-width: 767px) {
+    .active {
+        position: relative;
+        background: #88b7d5;
+    }
+
+    .active:after {
+        bottom: -1px;
+        left: 50%;
+        border: inset transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255, 255, 255, 0);
+        border-bottom-color: #ffffff;
+        border-left-width: 11px;
+        border-right-width: 11px;
+        border-top-width: 7px;
+        border-bottom-width: 7px;
+        margin-left: -9px;
+    }
+}
+
+.circleBase {
+    border-radius: 50%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+}
+
+.type1 {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    background: transparent;
+    border: 2px solid #035A8F;
+    text-align: center;
+}
