@@ -1,4 +1,5 @@
-<div class="row">
+
+<div class="container-fluid">
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12 text-center">
@@ -11,7 +12,7 @@
                 <div title="Next Photo" class="circleBase type2 icon icon-right" style="float:left" ng-click="next()"></div>
                 <div title="Vote Photo" class="circleBase type2 icon icon-check-mark" style="float:left;color: #5ABC35" ng-click="vote()"></div>
                 <div title="Share Photo" class="circleBase type2 icon icon-share" style="float:left" ng-click="share()"></div>
-                <div title="Close" class="circleBase type2 icon icon-cancel" style="float:left" ng-click="closeAction()"></div>
+                <div title="Close" class="circleBase type2 icon icon-cancel" style="float:left;font-size:3em;line-height: 54px" ng-click="closeAction()"></div>
             </div>
             <div class="col-sm-5 text-right" style="font-size: 2em">
                 {{ photo.votes_count.aggregate || 0}}

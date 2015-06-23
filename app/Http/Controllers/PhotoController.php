@@ -291,6 +291,7 @@ class PhotoController extends Controller {
         with(['user'=>function($query){
             $query->select(['id','name','avatar']);
         }])
+            ->where('status',1)
             ->select(['id','user_id','filename']);
 
         $photos = $photos->orderByRaw('rand("'.date('Ymdh').'")');

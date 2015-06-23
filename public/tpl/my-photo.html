@@ -1,9 +1,19 @@
-<div class="row">
-    <div class="col-sm-12" ng-if="addPhoto">
-        <photo-dialog></photo-dialog>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12" style="margin-bottom: 40px">
+            <div class="circleBase type1 icon icon-user" style="margin:0 auto;font-size: 2.9em;color:#035A8F"></div>
+            <div style="text-align: center;color:#035A8F;font-size:2em">
+                My Photo
+            </div>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12" ng-if="addPhoto">
+            <photo-dialog></photo-dialog>
+        </div>
 
-    <div class="col-sm-12" ng-if="userHasPhoto">
-        <my-photo photo="myPhoto"></my-photo>
+        <div class="col-sm-12" ng-if="userHasPhoto">
+            <my-photo photo="myPhoto"></my-photo>
+        </div>
     </div>
 </div>

@@ -1,9 +1,14 @@
 <div class="row" ng-if="!action">
     <div class="col-sm-6 text-center">
-        <a href="javascript:void(0)" ng-click="setAction('UPLOAD_FACEBOOK')" translate="My Photo.Upload from Facebook">Upload from Facebook</a>
+        <!--<a href="javascript:void(0)" ng-click="setAction('UPLOAD_FACEBOOK')" translate="My Photo.Upload from Facebook">Upload from Facebook</a>-->
+        <div class="circleBase type3 icon icon-upload-cloud" style="margin:0 auto;font-size: 5.9em;color:#035A8F;padding-top:25px" ng-click="setAction('UPLOAD_FACEBOOK')">
+            <div style="font-size: 20px;text-transform: uppercase;font-weight: 600" translate="My Photo.Upload from Facebook">Upload from Facebook</div>
+        </div>
     </div>
     <div class="col-sm-6 text-center">
-        <a href="javascript:void(0)" ng-click="setAction('UPLOAD_PC')" translate="My Photo.Upload from PC">Upload from PC</a>
+        <div class="circleBase type3 icon icon-laptop" style="margin:0 auto;font-size: 5.9em;color:#035A8F;padding-top:25px" ng-click="setAction('UPLOAD_PC')">
+            <div style="font-size: 20px;text-transform: uppercase;font-weight: 600" translate="My Photo.Upload from PC">Upload from PC</div>
+        </div>
     </div>
 </div>
 
@@ -22,18 +27,16 @@
         </div>
 
         <div class="text-center" style="margin-top: 30px">
-            <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn="" translate="My Photo.Select image">
-                Select image
+            <div class="circleBase type3 icon icon-laptop" style="margin:0 auto;font-size: 5.9em;color:#035A8F;padding-top:25px" ng-click="setAction('UPLOAD_PC')" ng-show="!$flow.files.length" flow-btn="">
+                <div style="font-size: 20px;text-transform: uppercase;font-weight: 600" translate="My Photo.Select image">Select image</div>
                 <input style="visibility: hidden; position: absolute;" type="file">
-            </span>
+            </div>
 
-            <span class="btn btn-success ng-hide" ng-show="$flow.files.length" ng-click="savePhoto($flow.files[0])" translate="My Photo.Save Photo">
-                Save Photo
-            </span>
-
-            <span class="btn btn-danger ng-hide" ng-show="$flow.files.length" ng-click="$flow.cancel()" translate="My Photo.Remove">
-                Remove
-            </span>
+            <div style="display: block;margin: 0 auto;width: 161px;">
+                <div class="circleBase type1 icon icon-check-mark" style="cursor:pointer;margin-right: 20px;font-size: 2.9em;background-color: #5ABB13;color:#FFFFFF;border-color: #5ABB13;float:left" ng-show="$flow.files.length" ng-click="savePhoto($flow.files[0])"></div>
+                <div class="circleBase type1 icon icon-cancel" style="cursor:pointer;margin:0 auto;font-size: 2.9em;color:red;border-color:red;float:left" ng-show="$flow.files.length" ng-click="$flow.cancel()"></div>
+                <div class="clearfix"></div>
+            </div>
         </div>
 
             <div class="text-center" style="margin-top: 30px" translate="My Photo.Only PNG,JPG,JPEG files allowed">
@@ -72,28 +75,24 @@
 </div>
 
 <script type="text/ng-template" id="/buttons-albums.html">
-    <a href="javascript:void(0)" class="btn btn-default" ng-click="previousPage()" style="float:left">
-        <span class="glyphicon glyphicon-backward"></span>
-        <span translate="Previous Page">Previous Page</span>
+    <a href="javascript:void(0)" ng-click="previousPage()" style="float:left" class="button-left">
+        <span class="icon icon-left" style="font-size: 2em;cursor:pointer" style="float:left"></span>
     </a>
-    <a href="javascript:void(0)" class="btn btn-default" ng-click="nextPage()" style="float:right">
-        <span class="glyphicon glyphicon-forward"></span>
-        <span translate="Next Page">Next Page</span>
+    <a href="javascript:void(0)" ng-click="nextPage()" style="float:right" class="button-right">
+        <span class="icon icon-right" style="font-size: 2em;cursor:pointer" style="float:right"></span>
     </a>
 </script>
 
 <script type="text/ng-template" id="/buttons-photos.html">
-    <a href="javascript:void(0)" class="btn btn-default" ng-click="previousPagePhotos()" style="float:left;margin-right: 10px;">
-        <span class="glyphicon glyphicon-backward"></span>
-        <span translate="Previous Page">Previous Page</span>
+    <a href="javascript:void(0)" ng-click="previousPagePhotos()" style="float:left" class="button-left">
+        <span class="icon icon-left" style="font-size: 2em;cursor:pointer" style="float:left"></span>
     </a>
-    <a href="javascript:void(0)" class="btn btn-default" ng-click="backToAlbums()" style="float:left">
-        <span class="glyphicon glyphicon-backward"></span>
-        <span translate="Back To Albums">Back To Albums</span>
+    <a href="javascript:void(0)" ng-click="backToAlbums()" style="float:left" class="button-left">
+        <span class="icon icon-picture" style="font-size: 2em;cursor:pointer" style="float:left"></span>
     </a>
-    <a href="javascript:void(0)" class="btn btn-default" ng-click="nextPagePhotos()" style="float:right">
-        <span class="glyphicon glyphicon-forward"></span>
-        <span translate="Next Page">Next Page</span>
+
+    <a href="javascript:void(0)" ng-click="nextPagePhotos()" style="float:right" class="button-right">
+        <span class="icon icon-right" style="font-size: 2em;cursor:pointer" style="float:right"></span>
     </a>
 </script>
 
@@ -173,15 +172,11 @@
     <div class="col-sm-12">
         <div class="thumbnail">
             <img src="" ng-src="{{ facebookPhoto }}" class="img-responsive" id="photoUpload">
-                <div class="text-center" style="margin-top: 30px">
-                <span class="btn btn-success" ng-click="savePhotoFacebook()" translate="My Photo.Save Photo">
-                    Save Photo
-                </span>
-
-                <span class="btn btn-default" ng-click="backToPhotos()" translate="My Photo.Back">
-                    Back
-                </span>
-            </div>
+        </div>
+        <div style="display: block;margin: 30px auto;width: 161px;">
+            <div class="circleBase type1 icon icon-check-mark" style="cursor:pointer;margin-right: 20px;font-size: 2.9em;background-color: #5ABB13;color:#FFFFFF;border-color: #5ABB13;float:left" ng-click="savePhotoFacebook()"></div>
+            <div class="circleBase type1 icon icon-cancel" style="cursor:pointer;margin:0 auto;font-size: 2.9em;color:red;border-color:red;float:left" ng-click="backToPhotos()"></div>
+            <div class="clearfix"></div>
         </div>
     </div>
 </div>

@@ -54,8 +54,7 @@
 			</div>
 		</div>
 	</nav>
-
-	<div ng-view=""></div>
+    <div ng-view=""></div>
 
     <div id="fb-root"></div>
 

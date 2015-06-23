@@ -1,24 +1,40 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-sm-12 text-center">
-                <h2>My Photo</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-8 text-left" style="padding: 10px">
-                <button class="btn btn-default" ng-click="changePicture()" translate="My Photo.Change Picture">Change picture</button>
-                <button class="btn btn-default" ng-click="removePicture()" translate="My Photo.Remove Picture">Remove picture</button>
-                <button class="btn btn-default" ng-click="sharePicture()" translate="My Photo.Share and get votes">Share and get votes</button>
-            </div>
-            <div class="col-sm-4 text-right" style="padding: 10px">
-                {{ photo.votes }}<span class="glyphicon glyphicon-heart"></span>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-sm-12">
                 <div class="thumbnail">
                     <img src="" ng-src="{{ photo.path }}" class="img-responsive" id="photoUpload">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3" style="padding: 10px">
+                <div ng-click="changePicture()" style="cursor: pointer">
+                    <div class="circleBase type1 icon icon-plus hover-grey" style=""></div>
+                    <div style="text-align: center;color:#717171;font-size:1em;text-transform: uppercase;margin-top: 10px" translate="My Photo.Change Picture">
+                        Change Picture
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3" style="padding: 10px">
+                <div ng-click="removePicture()" style="cursor: pointer">
+                    <div class="circleBase type1 icon icon-cancel hover-grey"></div>
+                    <div style="text-align: center;color:#717171;font-size:1em;text-transform: uppercase;margin-top: 10px" translate="My Photo.Remove Picture">
+                        Change Picture
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3" style="padding: 10px">
+                <div ng-click="sharePicture()" style="cursor: pointer">
+                    <div class="circleBase type1 icon icon-share hover-grey" style="padding-left: 0"></div>
+                    <div style="text-align: center;color:#717171;font-size:1em;text-transform: uppercase;margin-top: 10px" translate="My Photo.Share and get votes">
+                        Share and get votes
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 text-right" style="padding: 10px">
+                <div class="circleBase type4" style="margin:18px auto;font-size: 1.5em;color:#717171;border-color: #717171;padding-top: 7px;cursor: default;">
+                    {{ photo.votes }}<span class="glyphicon glyphicon-heart" style="color: red"></span>
                 </div>
             </div>
         </div>
